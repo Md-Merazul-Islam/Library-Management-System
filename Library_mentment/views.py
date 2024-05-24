@@ -40,3 +40,5 @@ class DetailBookView( DetailView):
 
 
 
+def about_us(request):
+    return render(request,'about.html')

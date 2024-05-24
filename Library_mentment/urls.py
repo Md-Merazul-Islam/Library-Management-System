@@ -10,6 +10,7 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('transactions/', include('transactions.urls')),
     path('', views.home, name='home'),  
+    path('about-us', views.about_us, name='about_us'),  
     path('category/<slug:category_slug>/', views.home, name='category_wise_view'),
     path('books/details/<int:pk>/', views.DetailBookView.as_view(), name='Book_detail'),
     # path('borrow-book/<int:book_id>/', views.Borrow_Book, name='borrow_book'),
