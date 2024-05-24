@@ -74,7 +74,7 @@ class DepositMoneyView(TransactionCreateMixin):
             self.request,
             f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
         )
-
+        send_transaction_email(self.request.user, amount, "Deposit Message", "transactions/deposit_email.html")
         return super().form_valid(form)
 
 
@@ -110,6 +110,21 @@ class TransactionReportView(LoginRequiredMixin, ListView):
 
         return context
 
+
+
+def send_email_borrow_book(user, book_title,book_price, subject, template):
+        message = render_to_string(template, {
+            'user' : user,
+            'book_title':book_title,
+            'book_price':book_price
+        })
+        send_email = EmailMultiAlternatives(subject, '', to=[user.email])
+        send_email.attach_alternative(message, "text/html")
+        send_email.send()
+
+
+
+
 @login_required
 def Borrow_Book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
@@ -133,6 +148,7 @@ def Borrow_Book(request, book_id):
     account.save(update_fields=['balance'])
     
     messages.success(request, f'You have successfully borrowed {book.title} book.')
+    send_email_borrow_book(request.user, book.title,book.price, "Book Borrowed Successfully", "transactions/borrow_email.html")
     return redirect('borrowing_history')
 
          
@@ -157,5 +173,5 @@ def return_book(request, borrowing_id):
     else:
         borrowing.save()
         messages.success(request, 'Book returned successfully.')
-        
+    send_email_borrow_book(request.user,borrowing.book.title,borrowing.book.price, "Book Returned Successfully", "transactions/return_email.html")
     return redirect('borrowing_history')
