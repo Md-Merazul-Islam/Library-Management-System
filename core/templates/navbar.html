@@ -1,11 +1,7 @@
-
-
-
 {% load static %}
-
-<nav class="bg-gray-800 ">
-  <div class="mx-auto  px-2 sm:px-6 lg:px-8" >
-    <div class="relative flex h-16 items-center justify-between" style="1670px">
+<nav class="" style=" background-color: #0a192f;">
+  <div class="mx-auto px-2 sm:px-6 lg:px-8" >
+    <div class="mx-auto px-2 sm:px-6 lg:px-8 flex h-16 items-center" style="max-width: 1746px;">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
         <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false" onclick="toggleMobileMenu()">
@@ -29,7 +25,7 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="{% url "home" %}" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
+            <a href="{% url "home" %}" class="bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
             <a href="{% url 'about_us' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">About Us</a>
             
           </div>
