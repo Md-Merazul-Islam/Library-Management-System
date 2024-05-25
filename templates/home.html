@@ -60,7 +60,7 @@
           </svg>
           {% endfor %}
         </div>
-        <a href="{% url 'Book_detail' book.id %}" class="text-decoration-none text-gray-800"><h1 class="text-3xl my-5">{{ book.title }}</h1> </a>
+        <a href="{% url 'Book_detail' book.id %}" class="text-decoration-none text-gray-800"><h4 class="text-3xl my-5">{{ book.title }}</h4> </a>
         <p class="card-text">{{ book.description|truncatechars:70 }}</p>
         <p class="card-text">Available: {{ book.quantity }}</p>
         <h2 class="font-semibold mb-4">${{ book.price }}</h2>
