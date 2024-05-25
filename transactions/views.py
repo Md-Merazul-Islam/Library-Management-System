@@ -129,10 +129,7 @@ def send_email_borrow_book(user, book_title,book_price, subject, template):
 def Borrow_Book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     account = UserAccount.objects.get(user=request.user)
-    borrowing, created = BorrowingHistory.objects.get_or_create(user=request.user, book=book)
-    if not created:
-        borrowing.quantity +=1
-        borrowing.save()
+  
         
     if book.quantity < 1:
         messages.error(request, 'The book is currently not available.')
@@ -141,11 +138,15 @@ def Borrow_Book(request, book_id):
     if account.balance < book.price:
         messages.error(request, 'You do not have enough balance to borrow this book!')
         return redirect('borrowing_history')
-
+   
     book.quantity -= 1
     book.save()
     account.balance -= book.price
     account.save(update_fields=['balance'])
+    borrowing, created = BorrowingHistory.objects.get_or_create(user=request.user, book=book)
+    if not created:
+        borrowing.quantity +=1
+        borrowing.save()
     
     messages.success(request, f'You have successfully borrowed {book.title} book.')
     send_email_borrow_book(request.user, book.title,book.price, "Book Borrowed Successfully", "transactions/borrow_email.html")
