@@ -15,6 +15,14 @@ from django.urls import reverse_lazy
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
+def send_email(user,subject,template):
+    message = render_to_string(template,{
+        'user':user
+    })
+    sent_email = EmailMultiAlternatives(subject,'',to=[user.email])
+    sent_email.attach_alternative(message,'text/html')
+    sent_email.send()
+   
 
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
@@ -26,14 +34,20 @@ class UserRegistrationView(FormView):
         user = form.save()
         login(self.request, user)
         messages.success(self.request, f'Account created fo successfully.')
+        send_email(user,'Register Successful','accounts/register_email.html')
 
         return super().form_valid(form) 
     
-
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
+
+    def form_valid(self, form):
+        user = form.get_user()
+        messages.success(self.request, 'Logged in successfully.')
+        send_email(user, 'Login Successful', 'accounts/login_email.html')
+        return super().form_valid(form)
+
     def get_success_url(self):
-        messages.success(self.request, f'Logged successfully. ')
         return reverse_lazy('home')
     
 class LogoutView(LoginRequiredMixin, RedirectView):
@@ -57,6 +71,8 @@ class UserAccountUpdateView(View):
             form = UserUpdateForm(request.POST,instance= request.user)
             if form.is_valid():
                 form.save()
+                messages.success(request, 'You information has been updated successfully!')
+                send_email(request.user,'Information updated Successful','accounts/info_update_email.html')
                 return redirect('home')
             return render(request,self.template_name,{'form':form})
 
