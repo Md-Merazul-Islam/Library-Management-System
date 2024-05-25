@@ -156,7 +156,11 @@ def Borrow_Book(request, book_id):
 @login_required
 def borrowing_history_show(request):
     borrowings = BorrowingHistory.objects.filter(user= request.user).order_by('-borrow_date')
-    return render(request,'transactions/borrowing_history.html',{'borrowings':borrowings})
+    for borrowing in borrowings:
+        borrowing.total_price_cur = borrowing.book.price * borrowing.quantity
+    total_price = sum(borrowing.book.price * borrowing.quantity for borrowing in borrowings)
+    return render(request,'transactions/borrowing_history.html',{'borrowings':borrowings ,'total_price': total_price})
+
 
 
 @login_required
