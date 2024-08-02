@@ -78,19 +78,19 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://libarary_management_user:pmwYMfeT7oWlHTmmX2OP7k5PvRVhOsRW@dpg-cp8bl7i1hbls739vrd2g-a.oregon-postgres.render.com/libarary_management'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgres://libarary_management_user:pmwYMfeT7oWlHTmmX2OP7k5PvRVhOsRW@dpg-cp8bl7i1hbls739vrd2g-a.oregon-postgres.render.com/libarary_management'
+#     )
+# }
 
 
 CSRF_TRUSTED_ORIGINS = ['https://library-management-system-1khz.onrender.com','https://*.127.0.0.1']
